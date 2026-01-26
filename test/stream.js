@@ -877,11 +877,13 @@ test('UDX - basic stats', async function (t) {
 
   // Pretty hard to calculate the exact amounts of expected packets/bytes
   // so we just sanity check the ballpark
+  // for example we may wait a tick to send if we haven't gathered enough data to send a full packet
+
   t.is(a.bytesTransmitted > 20, true, `a reasonable bytesTransmitted (${a.bytesTransmitted})`)
   t.is(a.packetsTransmitted > 0, true, `a reasonable packetsTransmitted (${a.packetsTransmitted})`)
   t.is(a.bytesReceived > 2, true, `a reasonable bytesReceived (${a.bytesReceived})`)
   t.is(a.packetsReceived > 0, true, `a reasonable packetsReceived (${a.packetsReceived})`)
-  t.is(b.bytesTransmitted > 20, true, `b reasonable bytesTransmitted (${b.bytesTransmitted})`)
+  t.is(b.bytesTransmitted >= 20, true, `b reasonable bytesTransmitted (${b.bytesTransmitted})`)
   t.is(b.packetsTransmitted > 0, true, `b reasonable packetsTransmitted (${b.packetsTransmitted})`)
   t.is(b.bytesReceived > 20, true, `b reasonable bytesReceived (${b.bytesReceived})`)
   t.is(b.packetsReceived > 0, true, `b reasonable packetsReceived (${b.packetsReceived})`)
@@ -893,15 +895,17 @@ test('UDX - basic stats', async function (t) {
   t.is(a.bytesReceived > 1000, true, `a now higher bytesReceived (${a.bytesReceived})`)
   t.is(b.bytesTransmitted > 1000, true, `b now higher bytesTransmitted (${b.bytesTransmitted})`)
 
+
+
   t.is(
     aUdx.bytesTransmitted,
     a.bytesTransmitted,
-    `udx same bytes out as the single stream (${aUdx.bytesTransmitted})`
+    `udx same bytes out as the single stream (${aUdx.bytesTransmitted}==${a.bytesTransmitted})`
   )
   t.is(
     aUdx.packetsTransmitted,
     a.packetsTransmitted,
-    `udx same packets out as the single stream (${aUdx.packetsTransmitted})`
+    `udx same packets out as the single stream (${aUdx.packetsTransmitted}==${a.packetsTransmitted})`
   )
   t.is(
     aUdx.bytesReceived,
