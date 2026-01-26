@@ -895,8 +895,6 @@ test('UDX - basic stats', async function (t) {
   t.is(a.bytesReceived > 1000, true, `a now higher bytesReceived (${a.bytesReceived})`)
   t.is(b.bytesTransmitted > 1000, true, `b now higher bytesTransmitted (${b.bytesTransmitted})`)
 
-
-
   t.is(
     aUdx.bytesTransmitted,
     a.bytesTransmitted,
