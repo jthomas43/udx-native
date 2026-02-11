@@ -1723,6 +1723,11 @@ udx_native_exports (js_env_t *env, js_value_t *exports) {
   V("UV_UDP_IPV6ONLY", UV_UDP_IPV6ONLY);
   V("UV_UDP_REUSEADDR", UV_UDP_REUSEADDR);
 
+  V("UDX_BBR_STATE_STARTUP", UDX_BBR_STATE_STARTUP);
+  V("UDX_BBR_STATE_DRAIN", UDX_BBR_STATE_DRAIN);
+  V("UDX_BBR_STATE_PROBE_BW", UDX_BBR_STATE_PROBE_BW);
+  V("UDX_BBR_STATE_PROBE_RTT", UDX_BBR_STATE_PROBE_RTT);
+
   V("offsetof_udx_stream_t_inflight", offsetof(udx_stream_t, inflight));
   V("offsetof_udx_stream_t_mtu", offsetof(udx_stream_t, mtu));
   V("offsetof_udx_stream_t_cwnd", offsetof(udx_stream_t, cwnd));
