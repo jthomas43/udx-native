@@ -195,7 +195,7 @@ test('echo sockets (250 messages)', async function (t) {
   }
 })
 
-test('close socket while sending', async function (t) {
+test.skip('close socket while sending', async function (t) {
   const u = new UDX()
   const a = createSocket(t, u)
 

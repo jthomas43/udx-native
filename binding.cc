@@ -1254,6 +1254,24 @@ udx_napi_stream_set_ack (
   }
 }
 
+static double
+udx_napi_stream_get_bw(
+  js_env_t *env,
+  js_typedarray_span_of_t<udx_napi_stream_t, 1> stream
+) {
+  int err;
+  uint64_t bytes_per_second;
+
+  err = udx_stream_get_bw(&stream->stream, &bytes_per_second);
+
+  if (err < 0) {
+    err = js_throw_error(env, uv_err_name(err), uv_strerror(err));
+    assert(err == 0);
+  }
+
+  return (double) bytes_per_second;
+}
+
 static inline void
 udx_napi_stream_set_mode (
   js_env_t *env,
@@ -1705,6 +1723,11 @@ udx_native_exports (js_env_t *env, js_value_t *exports) {
   V("UV_UDP_IPV6ONLY", UV_UDP_IPV6ONLY);
   V("UV_UDP_REUSEADDR", UV_UDP_REUSEADDR);
 
+  V("UDX_BBR_STATE_STARTUP", UDX_BBR_STATE_STARTUP);
+  V("UDX_BBR_STATE_DRAIN", UDX_BBR_STATE_DRAIN);
+  V("UDX_BBR_STATE_PROBE_BW", UDX_BBR_STATE_PROBE_BW);
+  V("UDX_BBR_STATE_PROBE_RTT", UDX_BBR_STATE_PROBE_RTT);
+
   V("offsetof_udx_stream_t_inflight", offsetof(udx_stream_t, inflight));
   V("offsetof_udx_stream_t_mtu", offsetof(udx_stream_t, mtu));
   V("offsetof_udx_stream_t_cwnd", offsetof(udx_stream_t, cwnd));
@@ -1716,6 +1739,7 @@ udx_native_exports (js_env_t *env, js_value_t *exports) {
   V("offsetof_udx_stream_t_rto_count", offsetof(udx_stream_t, rto_count));
   V("offsetof_udx_stream_t_retransmit_count", offsetof(udx_stream_t, retransmit_count));
   V("offsetof_udx_stream_t_fast_recovery_count", offsetof(udx_stream_t, fast_recovery_count));
+  V("offsetof_udx_stream_t_bbr_state", offsetof(udx_stream_t, bbr.state));
   V("offsetof_udx_socket_t_bytes_rx", offsetof(udx_socket_t, bytes_rx));
   V("offsetof_udx_socket_t_packets_rx", offsetof(udx_socket_t, packets_rx));
   V("offsetof_udx_socket_t_bytes_tx", offsetof(udx_socket_t, bytes_tx));
@@ -1756,6 +1780,7 @@ udx_native_exports (js_env_t *env, js_value_t *exports) {
   V("udx_napi_stream_init", udx_napi_stream_init);
   V("udx_napi_stream_set_seq", udx_napi_stream_set_seq);
   V("udx_napi_stream_set_ack", udx_napi_stream_set_ack);
+  V("udx_napi_stream_get_bw", udx_napi_stream_get_bw);
   V("udx_napi_stream_set_mode", udx_napi_stream_set_mode);
   V("udx_napi_stream_connect", udx_napi_stream_connect);
   V("udx_napi_stream_change_remote", udx_napi_stream_change_remote);
